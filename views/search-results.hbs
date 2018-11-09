@@ -1,0 +1,13 @@
+<h2>Fake YouTube Search Results</h2>
+
+<form action="/results" method="GET">
+  <!-- value will pre-fill the form with their search term -->
+  <input type="search" name="search_query" placeholder="Search for a video..."
+      value="{{searchTerm}}" />
+  <button>Search</button>
+</form>
+
+<p>
+  You searched for <b>{{emoji}}</b>
+  but this is FAKE YouTube so we don't have any results.
+</p>
