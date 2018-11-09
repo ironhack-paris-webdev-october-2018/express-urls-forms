@@ -5,6 +5,8 @@ const express = require("express");
 // require "hbs" ONLY to set up partials
 // const hbs = require("hbs");
 
+const bodyParser = require("body-parser");
+
 
 const app = express();
 
@@ -15,6 +17,10 @@ app.listen(3000, () => {
 app.use(express.static(__dirname + "/public"));
 
 app.set("view engine", "hbs");
+
+// Creates "request.body" for our POST form submission routes
+// ("request.body" is empty without it)
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
@@ -86,4 +92,27 @@ app.get("/results", (request, response, next) => {
   // send the search query to the hbs file as "searchTerm"
   response.locals.searchTerm = search_query;
   response.render("search-results.hbs");
+});
+
+app.get("/login", (request, response, next) => {
+  response.render("login-form.hbs");
+});
+
+app.post("/process-login", (request, response, next) => {
+  // const userEmail = request.body.userEmail;
+  // const userPassword = request.body.userPassword;
+  const { userEmail, userPassword } = request.body;
+  // { userEmail: "yoda@master.com", userPassword: "yoda0"}
+  let message;
+
+  if (userEmail === "yoda@master.com" && userPassword === "yoda0") {
+    message = "Welcome back!";
+  }
+  else {
+    message = "Get the F*** OUTTA' HERE!";
+  }
+
+  response.locals.systemMessage = message;
+  response.locals.email = userEmail;
+  response.render("login-result.hbs");
 });
